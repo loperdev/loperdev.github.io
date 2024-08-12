@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FloorStreet Comprehensive Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #008060;
+            --secondary-color: #E67E22;
+            --background-color: #f6f6f7;
+            --text-color: #202223;
+            --card-background: #ffffff;
+            --border-color: #e1e3e5;
+            --sidebar-background: #f6f6f7;
+            --sidebar-text: #202223;
+            --header-background: #ffffff;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-background);
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        .sidebar-menu a {
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            position: relative;
+        }
+        header {
+            background-color: var(--header-background);
+            padding: 16px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        .notification-icon {
+            position: relative;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .notification-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #5c5f62;
+        }
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #de3618;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #5c6ac4;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .dashboard-item {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
+            padding: 20px;
+        }
+        h2 {
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #006e52;
+        }
+        .stat {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #6d7175;
+        }
+        .alert {
+            background-color: #fff8e6;
+            border-left: 4px solid #ffca8a;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        .alert-title {
+            color: #916a00;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .timeline {
+            border-left: 2px solid var(--border-color);
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+        .timeline-item {
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .timeline-item:before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .timeline-content {
+            background-color: #f9fafb;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e4e9f2;
+            color: #454f5b;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            width: 280px;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            transition: right 0.5s ease-in-out;
+            z-index: 1000;
+        }
+        .notification.show {
+            right: 20px;
+        }
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .notification-content {
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Marketing</a></li>
+                <li><a href="#">Discounts</a></li>
+                <li><a href="#">Apps</a></li>
+            </ul>
+        </nav>
+        <div class="main-content">
+            <header>
+                <div class="header-content">
+                    <div class="logo">FloorStreet POC</div>
+                    <div class="header-right">
+                        <div class="notification-icon">
+                            <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+                                <path d="M10 0C4.486 0 0 4.486 0 10s4.486 10 10 10 10-4.486 10-10S15.514 0 10 0zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm0-13a1 1 0 0 0-1 1v4a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1zm0 8a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
+                            <span class="notification-count">4</span>
+                        </div>
+                        <div class="user-avatar">F</div>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-grid">
+                <div class="dashboard-item">
+                    <h2>Lead Time Management</h2>
+                    <p>Configure product and category lead times</p>
+                    <button class="btn" onclick="openModal('leadTimeModal')">Manage Lead Times</button>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Postcode Rules</h2>
+                    <p>Set delivery rules based on postcodes</p>
+                    <button class="btn" onclick="openModal('postcodeModal')">Edit Rules</button>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Order Overview</h2>
+                    <span class="stat">145</span>
+                    <span class="stat-label">Orders for next 7 days</span>
+                    <span class="stat">3.5 days</span>
+                    <span class="stat-label">Average lead time</span>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Inventory Alerts</h2>
+                    <div class="alert">
+                        <div class="alert-title">Low Stock Alert</div>
+                        <p>12 products are running low on stock</p>
+                    </div>
+                    <button class="btn">View Details</button>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Vendor-Specific Rules</h2>
+                    <p>Manage delivery rules for different vendors</p>
+                    <button class="btn" onclick="openModal('vendorModal')">Edit Vendor Rules</button>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Recent Order Timeline</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <span class="tag">Flooring</span>
+                                <strong>Order #1234:</strong> Delivery date within 2 working days
+                                <p>@johnsmith please check stock availability</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <span class="tag">Stair Runner</span>
+                                <strong>Order #1235:</strong> Collection date set for next week
+                                <p>@sarahbrown ensure product is ready for collection</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Automation Rules</h2>
+                    <p>Manage auto-fulfillment and notification rules</p>
+                    <button class="btn">Configure Automations</button>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Notifications</h2>
+                    <div class="alert">
+                        <div class="alert-title">New Comment</div>
+                        <p>@teamlead commented on Order #1236</p>
+                    </div>
+                    <div class="alert">
+                        <div class="alert-title">Delivery Update</div>
+                        <p>5 orders auto-fulfilled for tomorrow's delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="notification" id="notification">
+        <div class="notification-title">New Order Received</div>
+        <div class="notification-content">
+            Order #1237 has been placed. @fulfillmentteam please process ASAP.
+        </div>
+    </div>
+
+    <script>
+        // Show notification after 3 seconds
+        setTimeout(() => {
+            document.getElementById('notification').classList.add('show');
+        }, 3000);
+
+        // Hide notification after 8 seconds
+        setTimeout(() => {
+            document.getElementById('notification').classList.remove('show');
+        }, 8000);
+
+        function openModal(modalId) {
+            // Placeholder for modal functionality
+            console.log(`Opening modal: ${modalId}`);
+        }
+    </script>
+</body>
+</html>
